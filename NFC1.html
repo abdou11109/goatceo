@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Front & Admin Panel</title>
+    <!-- Font Awesome for sleek social media icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --card-bg: #1f2833;
+            --text-main: #ffffff;
+            --text-muted: #c5a1ff;
+            --accent-glow: #8a2be2;
+            --accent-cyan: #00f2fe;
+            --panel-bg: rgba(31, 40, 51, 0.95);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient background glow effects */
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: var(--accent-glow);
+            filter: blur(150px);
+            opacity: 0.4;
+            z-index: -1;
+        }
+        body::before { top: -50px; left: -50px; }
+        body::after { bottom: 100px; right: -50px; background: var(--accent-cyan); }
+
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            width: 90% Rel;
+            margin: auto;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        /* Store Card Hub */
+        .store-card {
+            background: rgba(31, 40, 51, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 50px 40px;
+            border-radius: 24px;
+            box-shadow: 0 0 40px rgba(138, 43, 226, 0.25);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .store-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 50px rgba(138, 43, 226, 0.45), 0 0 20px rgba(0, 242, 254, 0.2);
+        }
+
+        #store-name {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, #ffffff, var(--text-muted), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
+        }
+
+        #store-intro {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #e0e0e0;
+            margin-bottom: 35px;
+            font-weight: 300;
+        }
+
+        .info-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            margin: 30px 0;
+        }
+
+        /* Location Section */
+        .location-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: var(--accent-cyan);
+            font-weight: 600;
+            margin-bottom: 40px;
+            font-size: 1.05rem;
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+        }
+
+        /* Social Media Icons */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-btn.instagram:hover {
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+            box-shadow: 0 0 20px rgba(214, 36, 159, 0.6);
+            transform: scale(1.15);
+        }
+
+        .social-btn.facebook:hover {
+            background: #1877F2;
+            box-shadow: 0 0 20px rgba(24, 119, 242, 0.6);
+            transform: scale(1.15);
+        }
+
+        .social-btn.whatsapp:hover {
+            background: #25D366;
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.6);
+            transform: scale(1.15);
+        }
+
+        /* Footer Statement */
+        footer {
+            text-align: center;
+            padding: 30px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 2px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        footer span {
+            color: var(--accent-cyan);
+            text-shadow: 0 0 8px rgba(0, 242, 254, 0.5);
+        }
+
+        /* Floating Admin Trigger Button */
+        .admin-trigger {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(31, 40, 51, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 10px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        .admin-trigger:hover {
+            color: #fff;
+            border-color: var(--accent-glow);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* Control Panel Overlay Modal */
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 12, 16, 0.9);
+            backdrop-filter: blur(15px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 20px;
+        }
+
+        .panel-content {
+            background: var(--card-bg);
+            border: 2px solid var(--accent-glow);
+            box-shadow: 0 0 40px rgba(138, 43, 226, 0.5);
+            width: 100%;
+            max-width: 550px;
+            border-radius: 20px;
+            padding: 35px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .panel-content h2 {
+            margin-bottom: 25px;
+            font-weight: 800;
+            color: #fff;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-sizing: border-box;
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+        }
+
+        .panel-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-save {
+            background: linear-gradient(45deg, var(--accent-glow), #4b0082);
+            color: white;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+        }
+        .btn-save:hover {
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.7);
+            transform: translateY(-2px);
+        }
+
+        .btn-close {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+        .btn-close:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: #ff4a4a;
+            color: #ff4a4a;
+        }
+
+        /* Password Auth Screen inside Panel */
+        #auth-section {
+            text-align: center;
+            padding: 20px 0;
+        }
+        #management-fields {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Front Store View -->
+    <div class="container">
+        <main class="store-card">
+            <h1 id="store-name">Loading Store...</h1>
+            <p id="store-intro">Setting up details.</p>
+            
+            <div class="info-divider"></div>
+            
+            <div class="location-box">
+                <i class="fa-solid fa-location-dot"></i>
+                <span id="store-location">Fetching location...</span>
+            </div>
+
+            <div class="social-links">
+                <a href="#" id="link-instagram" target="_blank" class="social-btn instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" id="link-facebook" target="_blank" class="social-btn facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" id="link-whatsapp" target="_blank" class="social-btn whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mandatory Credits Footer -->
+    <footer>
+        Powered By <span>GoatsCeo Production</span>
+    </footer>
+
+    <!-- Secret Access Controls -->
+    <button class="admin-trigger" onclick="openAdminPanel()"><i class="fa-solid fa-gear"></i> Admin</button>
+
+    <div class="admin-panel" id="adminPanel">
+        <div class="panel-content">
+            <h2>Control Panel</h2>
+            
+            <!-- Auth Protection Screen -->
+            <div id="auth-section">
+                <div class="form-group">
+                    <label for="admin-password">Enter Master Secure Password</label>
+                    <input type="password" id="admin-password" placeholder="••••••••••••••••">
+                </div>
+                <div class="panel-actions">
+                    <button class="btn btn-save" onclick="verifyPassword()">Unlock System</button>
+                    <button class="btn btn-close" onclick="closeAdminPanel()">Exit</button>
+                </div>
+            </div>
+
+            <!-- Dashboard Fields (Hidden by Default) -->
+            <div id="management-fields">
+                <div class="form-group">
+                    <label for="edit-name">Store Name</label>
+                    <input type="text" id="edit-name">
+                </div>
+                <div class="form-group">
+                    <label for="edit-intro">Introduction</label>
+                    <textarea id="edit-intro" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="edit-location">Localization (Address/City)</label>
+                    <input type="text" id="edit-location">
+                </div>
+                <div class="form-group">
+                    <label for="edit-instagram">Instagram URL</label>
+                    <input type="url" id="edit-instagram" placeholder="https://instagram.com/username">
+                </div>
+                <div class="form-group">
+                    <label for="edit-facebook">Facebook URL</label>
+                    <input type="url" id="edit-facebook" placeholder="https://facebook.com/page">
+                </div>
+                <div class="form-group">
+                    <label for="edit-whatsapp">WhatsApp Link / Number</label>
+                    <input type="text" id="edit-whatsapp" placeholder="https://wa.me/yournumber">
+                </div>
+                <div class="panel-actions">
+                    <button class="btn btn-save" onclick="saveStoreData()">Save Changes</button>
+                    <button class="btn btn-close" onclick="closeAdminPanel()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Set your long master password right here
+        const MASTER_PASSWORD = "GoatsCeoProductionSystemSecureKey2026##!!";
+
+        // Initial default data package if localStorage is clear
+        const defaultData = {
+            name: "UCHIHA HQ",
+            intro: "Welcome to the ultimate digital domain. We curate premium aesthetics, next-gen assets, and exceptional designs crafted carefully for elite creators.",
+            location: "Sidi Bel Abbès, Algeria",
+            instagram: "https://instagram.com",
+            facebook: "https://facebook.com",
+            whatsapp: "https://wa.me/"
+        };
+
+        // Load and map information onto page elements
+        function initializeStore() {
+            let storeData = JSON.parse(localStorage.getItem('store_profile_data'));
+            if (!storeData) {
+                localStorage.setItem('store_profile_data', JSON.stringify(defaultData));
+                storeData = defaultData;
+            }
+
+            // Update UI elements
+            document.getElementById('store-name').innerText = storeData.name;
+            document.getElementById('store-intro').innerText = storeData.intro;
+            document.getElementById('store-location').innerText = storeData.location;
+            document.getElementById('link-instagram').href = storeData.instagram || '#';
+            document.getElementById('link-facebook').href = storeData.facebook || '#';
+            document.getElementById('link-whatsapp').href = storeData.whatsapp || '#';
+        }
+
+        function openAdminPanel() {
+            document.getElementById('adminPanel').style.display = 'flex';
+            document.getElementById('auth-section').style.display = 'block';
+            document.getElementById('management-fields').style.display = 'none';
+            document.getElementById('admin-password').value = '';
+        }
+
+        function closeAdminPanel() {
+            document.getElementById('adminPanel').style.display = 'none';
+        }
+
+        function verifyPassword() {
+            const enteredPass = document.getElementById('admin-password').value;
+            if (enteredPass === MASTER_PASSWORD) {
+                document.getElementById('auth-section').style.display = 'none';
+                document.getElementById('management-fields').style.display = 'block';
+                
+                // Prefill existing settings into inputs
+                const currentData = JSON.parse(localStorage.getItem('store_profile_data'));
+                document.getElementById('edit-name').value = currentData.name;
+                document.getElementById('edit-intro').value = currentData.intro;
+                document.getElementById('edit-location').value = currentData.location;
+                document.getElementById('edit-instagram').value = currentData.instagram;
+                document.getElementById('edit-facebook').value = currentData.facebook;
+                document.getElementById('edit-whatsapp').value = currentData.whatsapp;
+            } else {
+                alert("Access Denied: Invalid High-Security Key Configuration.");
+            }
+        }
+
+        function saveStoreData() {
+            const updatedData = {
+                name: document.getElementById('edit-name').value,
+                intro: document.getElementById('edit-intro').value,
+                location: document.getElementById('edit-location').value,
+                instagram: document.getElementById('edit-instagram').value,
+                facebook: document.getElementById('edit-facebook').value,
+                whatsapp: document.getElementById('edit-whatsapp').value
+            };
+
+            localStorage.setItem('store_profile_data', JSON.stringify(updatedData));
+            initializeStore(); // Refresh interface instantly
+            closeAdminPanel();
+        }
+
+        // Run application setup on layout build
+        window.onload = initializeStore;
+    </script>
+</body>
+</html>
